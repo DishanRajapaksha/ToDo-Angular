@@ -1,0 +1,23 @@
+name: Azure Static Web Apps CI/CD
+
+on:
+  push:
+    branches-ignore:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build and Deploy
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v0.0.1-preview
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_VICTORIOUS_MOSS_00089B110 }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "/"
+          app_artifact_location: "dist/todo-angular"

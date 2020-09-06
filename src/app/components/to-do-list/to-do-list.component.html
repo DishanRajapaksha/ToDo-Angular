@@ -1,0 +1,24 @@
+<mat-selection-list #todoList (selectionChange)="onClick($event)">
+  <mat-list-option
+    checkboxPosition="before"
+    *ngFor="let todo of toDos"
+    [value]="todo"
+    [class.complete]="todo?.completed"
+    [selected]="todo?.completed"
+    (contextmenu)="onContextMenu($event, todo)"
+    color="primary">
+    {{todo.title}}
+  </mat-list-option>
+</mat-selection-list>
+
+<div style="visibility: hidden; position: fixed"
+     [style.left]="contextMenuPosition.x"
+     [style.top]="contextMenuPosition.y"
+     [matMenuTriggerFor]="contextMenu">
+</div>
+
+<mat-menu #contextMenu="matMenu">
+  <ng-template matMenuContent let-item="item">
+    <button mat-menu-item (click)="onContextMenuDelete(item)">Delete</button>
+  </ng-template>
+</mat-menu>

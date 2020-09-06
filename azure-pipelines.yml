@@ -1,0 +1,35 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+- task: Cache@2
+  displayName: 'Restore dependencies'
+  inputs:
+    key: '$(Build.SourcesDirectory)/package.json'
+    path: '$(Build.SourcesDirectory)/node_modules/'
+    cacheHitVar: isCacheRestored
+  continueOnError: true
+
+- task: Npm@1
+  displayName: 'Install dependencies'
+  inputs:
+    verbose: false
+  condition: ne(variables['isCacheRestored'], 'true')
+
+# - task: Npm@1
+#   displayName: Build
+#   inputs:
+#     command: custom
+#     verbose: false
+#     customCommand: build
+
+# - task: AzureFileCopy@4
+#   inputs:
+#     SourcePath: '$(Build.SourcesDirectory)/dist/'
+#     azureSubscription: $(AzueSubscription)
+#     Destination: 'AzureBlob'
+#     storage: $(StorageAccount)
+#     ContainerName: $(ContainerName)
